@@ -6,7 +6,7 @@
 /*   By: ambouren <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:55:39 by ambouren          #+#    #+#             */
-/*   Updated: 2022/11/28 13:21:41 by ambouren         ###   ########.fr       */
+/*   Updated: 2022/12/18 16:24:47 by ambouren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,31 @@
 #include "minishell.h"
 #include "libft.h"
 #include "garbage.h"
+#include "rules.h"
 
-t_hash_set 	*init_env(char **env)
+void	ft_delete_data(t_data *data)
 {
-	t_hash_set *ret;
+	ft_free_hashset(data->env, ft_free);
+	if (data->initpwd)
+		ft_free(data->initpwd);
+	ft_free(data->prog_name);
+	ft_free(data->prompt);
+	ft_free(data->error);
+	if (data->save_stdin != -1)
+		close(data->save_stdin);
+	if (data->save_stdout != -1)
+		close(data->save_stdout);
+	if (data->fd_in != -1)
+		close(data->fd_in);
+	if (data->fd_out != -1)
+		close(data->fd_out);
+	ft_destroy_tree(&data->abstract_tree, ft_free_rules);
+	ft_lstclear(&data->input, ft_free_token);
+}
+
+t_hash_set	*init_env(char **env)
+{
+	t_hash_set	*ret;
 
 	ret = ft_new_hashset(ft_hashcode_var);
 	while (*env)
@@ -32,7 +53,7 @@ void	init_minishell(t_data *data, char *name, char **env)
 	data->env = init_env(env);
 	data->initpwd = getcwd(NULL, 0);
 	if (!data->initpwd)
-		perror("y a pas de chemin la");
+		perror(name);
 	else
 	{
 		set_var("PWD", data->initpwd, data->env);

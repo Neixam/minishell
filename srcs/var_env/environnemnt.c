@@ -6,7 +6,7 @@
 /*   By: ambouren <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 18:37:51 by ambouren          #+#    #+#             */
-/*   Updated: 2022/11/30 18:37:52 by ambouren         ###   ########.fr       */
+/*   Updated: 2022/12/18 16:14:29 by ambouren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_var_cmp(void *a, void *b)
 int	ft_hashcode_var(char *var)
 {
 	int	hashcode;
-	int multiplier;
+	int	multiplier;
 
 	hashcode = 0;
 	multiplier = 1;
@@ -48,6 +48,5 @@ char	**ft_set_env(t_hash_set *set)
 	char	**ret;
 
 	ret = ft_collect(set, sizeof(char *), ft_coll_string);
-	ret[set->size] = 0;
 	return (ret);
 }

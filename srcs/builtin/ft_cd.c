@@ -1,34 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_cd.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ambouren <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/18 15:29:15 by ambouren          #+#    #+#             */
+/*   Updated: 2022/12/18 16:47:22 by ambouren         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
 #include "rules.h"
 #include "execute.h"
 
-int ft_make_cd(t_data *data, char **args)
+int	ft_switch_pwd(t_data *data)
 {
 	char	*current_path;
 
-	if (!*args)
-	{
-		// TODO error not enough argument
-		return (1);
-	}
-	if (*(args + 1))
-	{
-		// TODO error too many argument
-		return (1);
-	}
-	if (chdir(*args) == -1)
-	{
-		// TODO error chdir (bad path)
-		return (1);
-	}
-	if (!data)
-		return (0);
 	current_path = getcwd(0, 0);
 	if (!current_path)
 	{
-		perror("pas bien");
+		perror("getcwd");
 		return (1);
 	}
 	if (data->initpwd)
@@ -42,13 +37,35 @@ int ft_make_cd(t_data *data, char **args)
 	return (0);
 }
 
-int	ft_my_cd(const char *name, char * const *args, char * const *env)
+int	ft_make_cd(t_data *data, char **args)
 {
-	(void)name;
-	(void)env;
-	exit(ft_make_cd(0, (char **)args + 1));
+	if (!*args || *(args + 1) || chdir(*args) == -1)
+	{
+		if (!*args)
+			ft_put_error("cd", "not enough argument");
+		else if (*(args + 1))
+			ft_put_error("cd", "too many argument");
+		else
+			perror("cd");
+		return (1);
+	}
+	if (!data)
+		return (0);
+	if (ft_switch_pwd(data))
+		return (1);
+	return (0);
 }
 
+int	ft_my_cd(const char *name, char *const*args, char *const*env)
+{
+	int	ret;
+
+	(void)name;
+	(void)env;
+	ret = ft_make_cd(0, (char **)args + 1);
+	ft_clean_memory();
+	exit(ret);
+}
 
 void	ft_cd(t_rules *rules)
 {
@@ -56,5 +73,5 @@ void	ft_cd(t_rules *rules)
 		ft_execute(rules->data, rules->arg, ft_my_cd);
 	else
 		g_exit_status = ft_make_cd(rules->data,
-									   (char **)rules->arg + 1);
+				(char **)rules->arg + 1);
 }

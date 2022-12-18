@@ -1,31 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   token2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ambouren <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/18 15:22:33 by ambouren          #+#    #+#             */
-/*   Updated: 2022/12/18 15:22:56 by ambouren         ###   ########.fr       */
+/*   Created: 2022/12/18 16:26:57 by ambouren          #+#    #+#             */
+/*   Updated: 2022/12/18 16:28:16 by ambouren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include "rules.h"
-#include "execute.h"
+#include "token.h"
+#include "libft.h"
 
-int	ft_my_env(const char *name, char *const*args, char *const*env)
+t_token	*ft_new_token(char *value, t_token_name name)
 {
-	(void)name;
-	(void)args;
-	while (*env)
-		printf("%s\n", *(env++));
-	ft_clean_memory();
-	exit(0);
+	t_token	*ret;
+
+	ret = (t_token *)ft_malloc(sizeof(t_token));
+	ret->value = value;
+	ret->name = name;
+	return (ret);
 }
 
-void	ft_env(t_rules *rules)
+void	ft_free_token(void *token)
 {
-	ft_execute(rules->data, rules->arg, ft_my_env);
+	ft_free(((t_token *)token)->value);
+	ft_free(token);
+}
+
+t_token_name	ft_get_name(void *t)
+{
+	return (((t_token *)t)->name);
 }

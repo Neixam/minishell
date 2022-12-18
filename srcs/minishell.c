@@ -6,7 +6,7 @@
 /*   By: ambouren <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 17:07:56 by ambouren          #+#    #+#             */
-/*   Updated: 2022/10/29 18:28:26 by ambouren         ###   ########.fr       */
+/*   Updated: 2022/12/18 16:26:06 by ambouren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <stdlib.h>
-#include <stdbool.h>
 #include <unistd.h>
 #include <sys/wait.h>
 
@@ -32,14 +31,16 @@ int	ft_retrieve_prompt(t_data *data)
 	if (!buf)
 	{
 		ft_clean_memory();
-		printf("exit\n");
+		ft_putendl_fd("exit", 2);
 		exit(g_exit_status);
 	}
 	ft_garb_add(buf);
 	ret = parsing(buf, data);
 	if (ret)
 	{
-		printf("%s: parse error\n", data->prog_name);
+		printf("%s: syntax error near unexpected token `%s' in line %d\n",
+			data->prog_name, data->error, data->line);
+		g_exit_status = 2;
 	}
 	add_history(buf);
 	ft_free(buf);
@@ -54,53 +55,13 @@ void	reset_minishell(t_data *data)
 	data->fd_out = -1;
 	data->op_err = 0;
 	data->pipe = -1;
+	if (data->error)
+		ft_free(data->error);
+	data->error = 0;
 	data->line++;
 }
-/*
-void	printTreeAux(t_tree *node)
-{
-	static bool rightmost[128];
-	static int depth = 0;
-	t_rules	*value;
 
-	if (!node)
-	{
-		depth = 0;
-		for (int i = 0; i < 128; i++)
-			rightmost[i] = false;
-	}
-	for (int i = 1; i < depth; i++)
-	{
-		printf(rightmost[i] ? "    " : "\u2502   ");
-	}
-	if (depth > 0)
-	{
-		printf(rightmost[depth] ? "\u2514\u2500\u2500 " : "\u251c\u2500\u2500 ");
-	}
-	value = (t_rules *)node->content;
-	if (value->token <= ENV && value->token > CMD)
-	{
-		for (char **av = (char **)value->arg; *av; av++)
-			printf("'%s'%c", *av, (*(av + 1)) ? ' ' : '\n');
-	}
-	else if (value->token >= APPEND
-			 && value->token <= REDIR_IN)
-		printf("%s '%s'\n", (value->token == REDIR_OUT) ? ">" :
-							(value->token == REDIR_IN) ? "<" :
-							(value->token == APPEND) ? ">>" : "<<",
-			   (char *)value->arg);
-	else
-		printf("'%s'\n", (char *)value->arg);
-	depth++;
-	for (t_tree *child = node->child; child != 0; child = child->bro)
-	{
-		rightmost[depth] = (child->bro) ? false : true;
-		printTreeAux(child);
-	}
-	depth--;
-}
-*/
-int ft_retrieve_status(int exit_status, int *first)
+int	ft_retrieve_status(int exit_status, int *first)
 {
 	if (WIFSIGNALED(exit_status))
 	{
@@ -118,10 +79,9 @@ void	list_exec(t_data *data)
 {
 	pid_t	last_pid;
 	pid_t	pid;
-	int 	exit_status;
-	int 	first;
+	int		exit_status;
+	int		first;
 
-	/*printTreeAux(data->abstract_tree);*/
 	ft_depth_first_iter(data->abstract_tree, dispatch);
 	if (dup2(data->save_stdout, STDOUT_FILENO) == -1)
 		perror(data->prog_name);
@@ -147,7 +107,8 @@ void	start_minishell(t_data *data)
 	while (1)
 	{
 		reset_minishell(data);
-		prompt_signals();
+		if (prompt_signals())
+			return (perror(data->prog_name));
 		if (!ft_retrieve_prompt(data))
 			list_exec(data);
 	}

@@ -6,7 +6,7 @@
 /*   By: ambouren <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 15:15:14 by ambouren          #+#    #+#             */
-/*   Updated: 2022/11/28 13:03:17 by ambouren         ###   ########.fr       */
+/*   Updated: 2022/12/18 15:15:41 by ambouren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,14 @@ typedef struct s_data
 	char		*initpwd;
 	char		*prog_name;
 	char		*prompt;
+	char		*error;
 	int			line;
-	int 		fd_out;
-	int 		fd_in;
-	int 		op_err;
-	int 		save_stdout;
-	int 		save_stdin;
-	int 		pipe;
+	int			fd_out;
+	int			fd_in;
+	int			op_err;
+	int			save_stdout;
+	int			save_stdin;
+	int			pipe;
 	t_tree		*abstract_tree;
 	t_list		*input;
 }	t_data;
@@ -47,5 +48,7 @@ int			prompt_signals(void);
 void		heredoc_prompt_signal(int sign);
 t_hash_set	*init_env(char **env);
 int			ft_is_varname(char *name);
+void		ft_put_error(char *name, char *error);
+void		ft_delete_data(t_data *data);
 
 #endif

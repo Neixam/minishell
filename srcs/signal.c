@@ -6,14 +6,13 @@
 /*   By: ambouren <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 12:33:46 by ambouren          #+#    #+#             */
-/*   Updated: 2022/11/28 13:21:43 by ambouren         ###   ########.fr       */
+/*   Updated: 2022/12/18 16:21:23 by ambouren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <signal.h>
 #include <readline/readline.h>
 #include <unistd.h>
-#include <stdlib.h>
 #include "minishell.h"
 
 void	readline_restart(int sign)

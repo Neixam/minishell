@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_echo.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ambouren <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/18 15:33:04 by ambouren          #+#    #+#             */
+/*   Updated: 2022/12/18 15:34:00 by ambouren         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include "rules.h"
 #include "execute.h"
 
-int ft_get_opt(char *first, int *i)
+int	ft_get_opt(char *first, int *i)
 {
-	int j;
+	int	j;
 
 	if (first && *first != '-')
 		return (0);
@@ -19,10 +31,10 @@ int ft_get_opt(char *first, int *i)
 	return (1);
 }
 
-int	ft_my_echo(const char *name, char * const *args, char * const *env)
+int	ft_my_echo(const char *name, char *const*args, char *const*env)
 {
-	int 		opt;
-	int 		i;
+	int	opt;
+	int	i;
 
 	(void)name;
 	(void)env;
@@ -36,6 +48,7 @@ int	ft_my_echo(const char *name, char * const *args, char * const *env)
 	}
 	if (!opt)
 		printf("\n");
+	ft_clean_memory();
 	exit(0);
 }
 

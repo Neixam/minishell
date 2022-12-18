@@ -20,9 +20,8 @@ static unsigned int	hash_code(void *ad, int size)
 
 t_hash_set	*garbage(void)
 {
-	static t_hash_set	*garb;
+	static t_hash_set	*garb = NULL;
 
-	garb = NULL;
 	if (!garb)
 	{
 		garb = (t_hash_set *)malloc(sizeof(t_hash_set));

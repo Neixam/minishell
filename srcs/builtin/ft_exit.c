@@ -1,12 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ambouren <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/18 15:30:59 by ambouren          #+#    #+#             */
+/*   Updated: 2022/12/18 15:32:57 by ambouren         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdlib.h>
 #include <limits.h>
+#include <unistd.h>
 #include "rules.h"
 #include "execute.h"
 
-int ft_best_atoi(char *s, int *ret)
+int	ft_best_atoi(char *s, int *ret)
 {
-	int 			i;
-	int 			neg;
+	int				i;
+	int				neg;
 	unsigned long	val;
 
 	i = 0;
@@ -22,7 +35,7 @@ int ft_best_atoi(char *s, int *ret)
 		if (!ft_isdigit(s[i])
 			|| (val * 10 + (s[i] - '0') > LONG_MAX && neg == 1)
 			|| (val * 10 + (s[i] - '0') > (unsigned long)LONG_MAX + 1
-			&& neg == -1))
+				&& neg == -1))
 			return (-1);
 		val = val * 10 + (s[i++] - '0');
 	}
@@ -36,7 +49,7 @@ int	ft_make_exit(char **args)
 
 	if (*args && *(args + 1))
 	{
-		// TODO error too many argument
+		ft_put_error("exit", "too many argument");
 		return (1);
 	}
 	ft_putendl_fd("exit", 2);
@@ -45,25 +58,31 @@ int	ft_make_exit(char **args)
 	{
 		if (ft_best_atoi(*args, &exit_status) == -1)
 		{
-			// TODO error argument are not a number
+			ft_put_error(*args, "are not a numeric value");
 			exit_status = 2;
 		}
 	}
+	ft_clean_memory();
 	exit(exit_status);
 }
 
-int	ft_my_exit(const char *name, char * const *args, char * const *env)
+int	ft_my_exit(const char *name, char *const*args, char *const*env)
 {
 	(void)name;
 	(void)env;
 	exit(ft_make_exit((char **)args + 1));
 }
 
-
 void	ft_exit(t_rules *rules)
 {
 	if (rules->data->pipe != -1)
 		ft_execute(rules->data, rules->arg, ft_my_exit);
 	else
+	{
+		if (rules->data->save_stdin != -1)
+			close(rules->data->save_stdin);
+		if (rules->data->save_stdout != -1)
+			close(rules->data->save_stdout);
 		g_exit_status = ft_make_exit((char **)rules->arg + 1);
+	}
 }

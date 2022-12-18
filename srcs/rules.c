@@ -1,41 +1,51 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rules.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ambouren <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/18 16:22:06 by ambouren          #+#    #+#             */
+/*   Updated: 2022/12/18 16:24:02 by ambouren         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "rules.h"
 
 t_applied	ft_get_apply(t_token_name name)
 {
-	static t_applied applies[] =
-			{
-			ft_cmd,
-			ft_program,
-			ft_echo,
-			ft_cd,
-			ft_pwd,
-			ft_export,
-			ft_exit,
-			ft_unset,
-			ft_env,
-			ft_append,
-			ft_heredoc,
-			ft_redirout,
-			ft_redirin,
-			ft_pipe,
-			};
+	static t_applied	applies[] = {
+		ft_cmd,
+		ft_program,
+		ft_echo,
+		ft_cd,
+		ft_pwd,
+		ft_export,
+		ft_exit,
+		ft_unset,
+		ft_env,
+		ft_append,
+		ft_heredoc,
+		ft_redirout,
+		ft_redirin,
+		ft_pipe
+	};
 
 	return (applies[name]);
 }
 
 t_token_name	ft_literal_value(t_token *token)
 {
-	static char		*rules[] =
-			{
-			"echo",
-			"cd",
-			"pwd",
-			"export",
-			"exit",
-			"unset",
-			"env",
-			NULL
-			};
+	static char		*rules[] = {
+		"echo",
+		"cd",
+		"pwd",
+		"export",
+		"exit",
+		"unset",
+		"env",
+		NULL
+	};
 	t_token_name	name;
 
 	name = -1;

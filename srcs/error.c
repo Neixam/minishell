@@ -1,31 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ambouren <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/18 15:22:33 by ambouren          #+#    #+#             */
-/*   Updated: 2022/12/18 15:22:56 by ambouren         ###   ########.fr       */
+/*   Created: 2022/12/18 16:24:16 by ambouren          #+#    #+#             */
+/*   Updated: 2022/12/18 16:24:17 by ambouren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include "rules.h"
-#include "execute.h"
+#include "libft.h"
 
-int	ft_my_env(const char *name, char *const*args, char *const*env)
+void	ft_put_error(char *name, char *error)
 {
-	(void)name;
-	(void)args;
-	while (*env)
-		printf("%s\n", *(env++));
-	ft_clean_memory();
-	exit(0);
-}
-
-void	ft_env(t_rules *rules)
-{
-	ft_execute(rules->data, rules->arg, ft_my_env);
+	ft_putstr_fd(name, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putendl_fd(error, 2);
 }

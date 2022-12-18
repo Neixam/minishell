@@ -6,7 +6,7 @@
 /*   By: ambouren <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:52:37 by ambouren          #+#    #+#             */
-/*   Updated: 2022/10/29 16:54:51 by ambouren         ###   ########.fr       */
+/*   Updated: 2022/12/18 15:18:45 by ambouren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,11 @@ typedef struct s_rules
 	void			*arg;
 }	t_rules;
 
-typedef void (*t_applied)(t_rules *);
+typedef void	(*t_applied)(t_rules *);
 
 t_rules			*ft_new_rules(t_data *data, t_token_name token, void *arg);
 t_token_name	ft_literal_value(t_token *token);
 void			ft_free_rules(void *a);
-
 void			ft_exit(t_rules *rule);
 void			ft_unset(t_rules *rule);
 void			ft_pwd(t_rules *rule);

@@ -12,7 +12,6 @@
 
 #include "garbage.h"
 #include "libft.h"
-#include <stdio.h>
 #include <stdlib.h>
 
 static int	hash_code(void *ad, int size)

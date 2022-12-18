@@ -6,7 +6,7 @@
 #    By: ambouren <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/29 15:05:48 by ambouren          #+#    #+#              #
-#    Updated: 2022/11/28 18:20:26 by ambouren         ###   ########.fr        #
+#    Updated: 2022/12/18 16:28:54 by ambouren         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,7 @@ SRC		=	main.c \
 			syntax_program.c \
 			syntax_redir.c \
 			token.c \
+			token2.c \
 			rules.c \
 			ft_cd.c \
 			ft_echo.c \
@@ -54,12 +55,13 @@ SRC		=	main.c \
 			ft_pwd.c \
 			ft_redirect.c \
 			ft_unset.c \
+			error.c \
 			dispatch.c \
 			ft_execute.c \
+			ft_retrieve.c \
 			data.c
 DEP		=	$(addprefix $(DEP_PATH), $(SRC:.c=.d))
 OBJ		=	$(addprefix $(OBJ_PATH), $(SRC:.c=.o))
-BON_OBJ	=	$(addprefix $(OBJ_PATH), $(BONUS:.c=.o))
 
 #	Compilation
 all		:	$(EXEC)

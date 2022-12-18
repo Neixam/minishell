@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_heredoc.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ambouren <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/18 15:26:05 by ambouren          #+#    #+#             */
+/*   Updated: 2022/12/18 15:26:29 by ambouren         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <sys/types.h>
 #include <fcntl.h>
 #include <stdio.h>
@@ -28,7 +40,8 @@ void	read_input(t_rules *rules)
 	while (1)
 	{
 		line = readline("> ");
-		// TODO : error printing CTR-D
+		if (!line)
+			ft_put_error(rules->data->prog_name, "EOF are encounter");
 		if (!line || !ft_strcmp(line, rules->arg))
 			break ;
 		ft_putendl_fd(line, rules->data->fd_in);
@@ -57,7 +70,7 @@ void	ft_heredoc(t_rules *rules)
 	if (exec_father_signals())
 		perror(rules->data->prog_name);
 	rules->data->fd_in = open(name, O_WRONLY | O_TRUNC | O_CREAT,
-						S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	if (rules->data->fd_in == -1)
 		perror("here_doc");
 	pid = fork();

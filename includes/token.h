@@ -6,7 +6,7 @@
 /*   By: ambouren <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 15:37:51 by ambouren          #+#    #+#             */
-/*   Updated: 2022/10/29 18:28:29 by ambouren         ###   ########.fr       */
+/*   Updated: 2022/12/18 15:17:03 by ambouren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,25 @@
 
 typedef enum e_token_name
 {
-	CMD,			/* 0  */
-	PROGRAM,		/* 1  */
-	ECHO,			/* 2  */
-	CD,				/* 3  */
-	PWD,			/* 4  */
-	EXPORT,			/* 5  */
-	EXIT,			/* 6  */
-	UNSET,			/* 7  */
-	ENV,			/* 8  */
-	APPEND,			/* 9  */
-	HEREDOC,		/* 10 */
-	REDIR_OUT,		/* 11 */
-	REDIR_IN,		/* 12 */
-	PIPE,			/* 13 */
-	VARIABLE,		/* 14 */
-	SIMPLE_QUOTE,	/* 15 */
-	DOUBLE_QUOTE,	/* 16 */
-	WHITESPACE,		/* 17 */
-	LITERAL			/* 18 */
+	CMD,
+	PROGRAM,
+	ECHO,
+	CD,	
+	PWD,
+	EXPORT,	
+	EXIT,
+	UNSET,
+	ENV,
+	APPEND,	
+	HEREDOC,
+	REDIR_OUT,
+	REDIR_IN,
+	PIPE,
+	VARIABLE,
+	SIMPLE_QUOTE,
+	DOUBLE_QUOTE,
+	WHITESPACE,
+	LITERAL
 }	t_token_name;
 
 typedef struct s_token
